@@ -11,7 +11,7 @@ sub contarCaracteres {
        {
        $total = ($total + length $_) -1; # -1 desconsidero o \n
        } #obter o total de caracteres
- 
+   print "tamanho >>", $total, "\n";
    if ($total > $limite)
        {
        $saida = 1;
