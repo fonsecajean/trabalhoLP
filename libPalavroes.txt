@@ -1,0 +1,7 @@
+padrao para facilitar:
+palavrao1
+palavrao2
+palavrao3
+...
+
+Ler cada linha desse arquivo, e procurar no arquivo principal
