@@ -22,33 +22,39 @@ sub contarCaracteres {
 
 sub filtrarTexto {
    my ($texto, $filtro) = @_;
-      
-   while (<filtro>)
-   {
-   #passar pra um array todos os palavroes
-   }   
-   print @palavroes;
+   open (my $arqMod, '>', 'arquivoModificado.txt');
+   my @palavroes = <$filtro>;
+   while (<$texto>){
+   my $linha = $_;
+   	foreach my $i (0..($#palavroes-1)){
+  	chomp ($palavroes[$i]); #tirar o \n do final >> deve ser padrão no arquivo filtro.txt 
+	$linha =~ s/($palavroes[$i])/\*\*\*\*/gi;
+	}
+   print $arqMod $linha;
+   }
    
-   #ler o arquivo texto e passar o filtro
+   
+  #ler o arquivo texto e passar o filtro
 }
 #PROGRAMA PRINCIPAL----------------------------------------------------
 
 open (my $arquivo, "<", "arquivo.txt") or die "Impossível abrir arquivo.txt"; 
 open (my $filtro, "<", "filtro.txt") or die "impossivel abrir o filtro";
+filtrarTexto ($arquivo, $filtro);
+
 print "Digite o tamanho do arquivo >> ";
 my $lim = <STDIN>;
-
+seek ($arquivo, 0, 0);
 if (contarCaracteres($arquivo, $lim) == 0)
-      {
-      print "tamanho adequado!! \n";
-      }
+     {
+     print "tamanho adequado!! \n";
+     }
 
 else  #nesse caso, o arquivo será vetado ou a gente corta o que for muito grande?? 
-      {
-      print "arquivo muito grande!\n"
-      }
+     {
+     print "arquivo muito grande!\n"
+     }
 
-filtrarTexto($arquivo, $filtro);
 close $arquivo or die "Impossível fechar arquivo.txt"
 
 		
