@@ -20,10 +20,21 @@ sub contarCaracteres {
    return ($saida);
 }
 
+sub filtrarTexto {
+   my ($texto, $filtro) = @_;
+      
+   while (<filtro>)
+   {
+   #passar pra um array todos os palavroes
+   }   
+   print @palavroes;
+   
+   #ler o arquivo texto e passar o filtro
+}
 #PROGRAMA PRINCIPAL----------------------------------------------------
 
 open (my $arquivo, "<", "arquivo.txt") or die "Impossível abrir arquivo.txt"; 
-
+open (my $filtro, "<", "filtro.txt") or die "impossivel abrir o filtro";
 print "Digite o tamanho do arquivo >> ";
 my $lim = <STDIN>;
 
@@ -37,5 +48,7 @@ else  #nesse caso, o arquivo será vetado ou a gente corta o que for muito grand
       print "arquivo muito grande!\n"
       }
 
+filtrarTexto($arquivo, $filtro);
 close $arquivo or die "Impossível fechar arquivo.txt"
+
 		
