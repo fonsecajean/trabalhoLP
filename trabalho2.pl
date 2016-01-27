@@ -5,7 +5,8 @@ use File::Copy qw(move);
 #SUBROTINAS
 #Contar Caracteres-----------------------------------------------------------------
 sub contarCaracteres {
-   my ($texto, $limite) = @_;
+   my ($nomeArq, $limite) = @_;
+   open (my $texto, '<', $nomeArq) or die "impossível abrir arquivo";
    my $saida = 0; # saida recebe 0 se estiver ok, 1 se for muito grande
    my $total = 0;
 
@@ -18,13 +19,17 @@ sub contarCaracteres {
        {
        $saida = 1;
        }
-
+   close $nomeArq;
    return ($saida);
 }
 
 #Filtro parametros: arquivo, filtro, nome do arquivo ----------------------------------------
 sub filtrarTexto {
-   my ($texto, $filtro, $nomeArq) = @_;
+   my ($nomeFiltro, $nomeArq) = @_;
+   
+   open (my $filtro, '<', $nomeFiltro) or die "impossivel abrir arquivo";
+   open (my $texto, '<', $nomeArq) or die "impossivel abrir arquivo"; 
+
    my @palavroes = <$filtro>;
    open (my $escrita, '>>', 'arquivo2.txt');
    
@@ -41,6 +46,9 @@ sub filtrarTexto {
      }
  
   move 'arquivo2.txt', $nomeArq; 
+  
+  close $filtro;
+  close $texto;
 }
 
 #PROGRAMA PRINCIPAL----------------------------------------------------
@@ -48,15 +56,15 @@ print "Digite nome do arquivo: ";
 my $nomeArq = <STDIN>;
 chomp $nomeArq; #depois só passar o nome que foi pego com c++ para essa variavel, nao precisa mudar nada no resto do codigo!
 
-open (my $arquivo, "<", $nomeArq) or die "Impossível abrir arquivo.txt"; 
-open (my $filtro, "<", "filtro.txt") or die "impossivel abrir o filtro";
+print "digite nome do filtro: ";
+my $nomeFiltro = <STDIN>;
+chomp $nomeFiltro;
 
-filtrarTexto ($arquivo, $filtro, $nomeArq);
+filtrarTexto ($nomeFiltro,  $nomeArq);
 
 print "Digite o tamanho do arquivo >> ";
 my $lim = <STDIN>;
-seek ($arquivo, 0, 0);
-     if (contarCaracteres($arquivo, $lim) == 0)
+     if (contarCaracteres($nomeArq, $lim) == 0)
      {
      print "tamanho adequado!! \n";
      }
@@ -66,6 +74,4 @@ seek ($arquivo, 0, 0);
      print "arquivo muito grande!\n"
      }
 
-close $arquivo or die "Impossível fechar arquivo.txt";
-close $filtro or die "impossível fechar filtro.txt";
 		
