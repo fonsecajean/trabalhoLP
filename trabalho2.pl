@@ -7,7 +7,6 @@ use File::Copy qw(move);
 sub contarCaracteres {
    my ($nomeArq, $limite) = @_;
    open (my $texto, '<', $nomeArq) or die "impossível abrir arquivo";
-   my $saida = 0; # saida recebe 0 se estiver ok, 1 se for muito grande
    my $total = 0;
 
    while (<$texto>)
@@ -17,10 +16,14 @@ sub contarCaracteres {
    print "tamanho >>", $total, "\n";
    if ($total > $limite)
        {
-       $saida = 1;
+       print "Arquivo muito Grande!! \n"
        }
-   close $nomeArq;
-   return ($saida);
+   else 
+       {
+       print "tamanho dentro do limite \n"
+       }
+  
+  close $nomeArq;
 }
 
 #Filtro parametros: arquivo, filtro, nome do arquivo ----------------------------------------
@@ -64,14 +67,7 @@ filtrarTexto ($nomeFiltro,  $nomeArq);
 
 print "Digite o tamanho do arquivo >> ";
 my $lim = <STDIN>;
-     if (contarCaracteres($nomeArq, $lim) == 0)
-     {
-     print "tamanho adequado!! \n";
-     }
 
-     else  #nesse caso, o arquivo será vetado ou a gente corta o que for muito grande?? 
-     {
-     print "arquivo muito grande!\n"
-     }
+contarCaracteres ($nomeArq, $lim)
 
 		
